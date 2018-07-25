@@ -164,15 +164,66 @@ pScript.showDanger('myTitle', 'messageBody', 8000, false);
 * isCloasable = adds a close button (x) to the top right corner that enables to close the alert box with a click (default is false)
 
 ### UI Effects
-<b>WIP</b>
+<b>!WIP!</b>
+You can create slick looking and high customizable effects. Check them out!
 
 #### Scaling
 
+Add CSS class js-scale to any HTML element to have it be scaled/enlarged when it is fully visible on the screen:
+
+```
+<div class="js-scale"></div>
+```
+When the user scrolls down, it will keep its size. When the user scrolls up again, it will return to its start size.
+
+##### Offsets
+
+You can define an optional offset, so that the scaling process will be triggered after a certain distance between bottom of the screen and de bottom of the element has been reached. The offset value is measured in percent of the screen height.
+
+```
+<div class="js-scale js-scale-offset-20"></div>
+```
+
+##### Scaling factors
+
+You can define optional values for the scaling factors (how large your object will be). The factors are measured in persent of screen width/height. 
+
+```
+<div class="js-scale js-scale-x-100 js-scale-y-50"></div>
+```
+
+##### Duration
+
+The default duration of the transition is 400ms. If you want to change this you can do this via the js-scale-duration-ms class.
+
+```
+<div class="js-scale js-scale-duration-400"></div>
+```
+
+##### Events
+
+You can attach a event listener with Jquery to listen for an event called scaleIn or scaleOut.
+
+```
+$('#div').on('scaleIn', function(){
+    console.log('Now I'm large!');
+});
+```
+
+```
+$('#div').on('scaleOut', function(){
+    console.log('Now I'm small again!');
+});
+```
+
 #### Parallax
+WIP
 
 #### Hover Zoom
+WIP
 
 #### Validation Feedback
+WIP
 
 ### Jquery Functions
 
