@@ -163,6 +163,33 @@ pScript.showDanger('myTitle', 'messageBody', 8000, false);
 * duration = duration in milliseconds (e. g. 3000 for 3 seconds), if undefined = unlimited duration
 * isCloasable = adds a close button (x) to the top right corner that enables to close the alert box with a click (default is false)
 
+### UI Effects
+<b>WIP</b>
+
+#### Scaling
+
+#### Parallax
+
+#### Hover Zoom
+
+#### Validation Feedback
+
+### Jquery Functions
+
+* animateItem
+* animateItemAndHide
+* getAnimationClass
+* visibleOnScreen
+* getValueFromClass
+
+### pScript Functions
+
+* showSuccess
+* showInfo
+* showDanger
+* showWarning
+* getRandomColorHex
+
 ## Built With
 
 * [Animate.css](https://daneden.github.io/animate.css/) - CSS Library made by Daniel Eden
