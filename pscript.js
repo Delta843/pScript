@@ -322,7 +322,7 @@ var pScript = {};
             // If the object is completely visible in the window, fade it in 
             if (bottom_of_window - (height_of_Window * offset * 0.01) > bottom_of_object) {
                 let scaleWidth = width_of_window / width_of_object;
-                let scaleDuration = $(item).getValueFromClass(SCALE_DURATION_CLASS) * 0.1;
+                let scaleDuration = $(item).getValueFromClass(SCALE_DURATION_CLASS) * 0.001;
                 let scaleFactorX = $(item).getValueFromClass(SCALE_X_CLASS) * 0.01;
                 let scaleFactorY = $(item).getValueFromClass(SCALE_Y_CLASS) * 0.01;
 
