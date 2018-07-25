@@ -197,11 +197,20 @@ var pScript = {};
 
                 self.addClass(ANIMATE_CSS_ANIMATED);
                 self.addClass(animation);
+                self.trigger('animationStart');
 
-                // Invoke callback function if existing
-                if (obj.callback !== null && obj.callback !== undefined) {
-                    self.one(animationEnd, obj.callback());
-                }
+                var triggerAnimEnd = function(){
+                    self.trigger('animationEnd');
+                };
+
+                setTimeout(function () {
+                    // Invoke callback function if existing
+                    if (obj.callback !== null && obj.callback !== undefined) {
+                        self.one(animationEnd, obj.callback());
+                    }
+                    // Trigger animated event
+                    self.one(animationEnd, triggerAnimEnd());
+                }, obj.delay * 1000);
             };
 
             if (obj.reset) {
@@ -210,33 +219,24 @@ var pScript = {};
                 addClasses();
             }
 
-
         },
         animateItemAndHide: function (obj) {
-            var callback = function () { obj.callback() };
-
             obj.callback = function () {
                 $(this).hide();
+                obj.callback();
             };
 
             $(this).animateItem(obj);
-
-            if (callback !== undefined || callback !== null) {
-                this.one(animationEnd, callback());
-            }
         },
         getAnimationClass: function () {
             var classes = this.attr('class').split(' ');
 
             for (var i = 0; i < animationClasses.length; i++) {
-
                 var currClass = 'js-' + animationClasses[i];
                 if (classes.indexOf(currClass) > -1) {
                     return animationClasses[i];
                 }
-
             }
-
         },
         highlightItemRed: function () {
             //TODO
@@ -310,13 +310,13 @@ var pScript = {};
 
     var checkScaledItems = function () {
         $('.' + SCALE_CLASS).each(function (index) {
-            let height_of_Window =  $(window).height();
+            let height_of_Window = $(window).height();
             let bottom_of_object = $(this).offset().top + $(this).outerHeight();
             let width_of_object = $(this).width();
             let width_of_window = $(window).width();
             let top_of_window = $(window).scrollTop();
             let bottom_of_window = top_of_window + height_of_Window;
-            let offset = $(this).getValueFromClass(SCALE_OFFSET_CLASS);            
+            let offset = $(this).getValueFromClass(SCALE_OFFSET_CLASS);
             let item = $(this);
 
             // If the object is completely visible in the window, fade it in 
@@ -329,28 +329,28 @@ var pScript = {};
                 scaleDuration = (scaleDuration > 0) ? scaleDuration : 0.4;
                 scaleFactorX = (scaleFactorX > 0) ? scaleFactorX : 1;
                 scaleFactorY = (scaleFactorY > 0) ? scaleFactorY : 1;
-                
-                scaleFactorX = scaleFactorX * scaleWidth;                
 
-                if(!$(item).data('scale')) {
+                scaleFactorX = scaleFactorX * scaleWidth;
+
+                if (!$(item).data('scale')) {
                     $(item).trigger('scaleIn');
                     $(item).data('scale', true);
                 }
 
                 $(item).css('transition', `transform ${scaleDuration}s`);
-                $(item).css('-webkit-transform', `scale(${scaleFactorX}, ${scaleFactorY})`);   
-                $(item).css('-ms-transform', `scale(${scaleFactorX}, ${scaleFactorY})`);  
-                $(item).css('transform', `scale(${scaleFactorX}, ${scaleFactorY})`);  
+                $(item).css('-webkit-transform', `scale(${scaleFactorX}, ${scaleFactorY})`);
+                $(item).css('-ms-transform', `scale(${scaleFactorX}, ${scaleFactorY})`);
+                $(item).css('transform', `scale(${scaleFactorX}, ${scaleFactorY})`);
                 $(item).data('scale', true);
             } else {
-                if($(item).data('scale')) {
+                if ($(item).data('scale')) {
                     $(item).trigger('scaleOut');
                     $(item).data('scale', false);
                 }
 
                 $(item).css('-webkit-transform', 'scale(1,1)');
                 $(item).css('-ms-transform', 'scale(1,1)');
-                $(item).css('transform', `scale(1,1)`);  
+                $(item).css('transform', `scale(1,1)`);
             }
         });
     };
