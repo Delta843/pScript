@@ -114,3 +114,34 @@
 .js-alert-btn-close:hover{    
     color:rgb(250, 103, 103);
 }
+
+.hover-zoom{
+  transition: all .3s ease-in-out;
+  background-size: 110%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: gray;
+}
+
+.hover-zoom:hover{
+    background-size: 100%;
+    background-position: relative;
+}
+
+.parallax { 
+    /* Full height */
+    height: 100%; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+    .parallax {
+        background-attachment: scroll;
+    }
+}
