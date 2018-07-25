@@ -113,6 +113,10 @@ var pScript = {};
     const ANIMATE_CSS_ANIMATED = 'animated';
 
     const SCALE_CLASS = 'js-scale';
+    const SCALE_OFFSET_CLASS = 'js-scale-offset';
+    const SCALE_X_CLASS = 'js-scale-x';
+    const SCALE_Y_CLASS = 'js-scale-y';
+    const SCALE_DURATION_CLASS = 'js-scale-duration';
 
 
 
@@ -250,16 +254,16 @@ var pScript = {};
             // If the object is completely visible in the window
             return (bottom_of_window > bottom_of_object && top_of_window < bottom_of_object);
         },
-        getValueFromClass: function(className) {
+        getValueFromClass: function (className) {
             var classes = $(this).attr('class').split(' ');
             var value = 0;
-                for (var i = 0; i < classes.length; i++) {
-                    if (classes[i].indexOf(className) !== -1) {
-                        // Get value from delay class, e.g. js-anim-delay-4=4s
-                        value = classes[i].substring(className.length+1);
-                        return value;
-                    }
+            for (var i = 0; i < classes.length; i++) {
+                if (classes[i].indexOf(className) !== -1) {
+                    // Get value from delay class, e.g. js-anim-delay-4=4s
+                    value = classes[i].substring(className.length + 1);
+                    return value;
                 }
+            }
             return 0;
         }
     });
@@ -304,9 +308,57 @@ var pScript = {};
         });
     };
 
+    var checkScaledItems = function () {
+        $('.' + SCALE_CLASS).each(function (index) {
+            let height_of_Window =  $(window).height();
+            let bottom_of_object = $(this).offset().top + $(this).outerHeight();
+            let width_of_object = $(this).width();
+            let width_of_window = $(window).width();
+            let top_of_window = $(window).scrollTop();
+            let bottom_of_window = top_of_window + height_of_Window;
+            let offset = $(this).getValueFromClass(SCALE_OFFSET_CLASS);            
+            let item = $(this);
+
+            // If the object is completely visible in the window, fade it in 
+            if (bottom_of_window - (height_of_Window * offset * 0.01) > bottom_of_object) {
+                let scaleWidth = width_of_window / width_of_object;
+                let scaleDuration = $(item).getValueFromClass(SCALE_DURATION_CLASS) * 0.1;
+                let scaleFactorX = $(item).getValueFromClass(SCALE_X_CLASS) * 0.01;
+                let scaleFactorY = $(item).getValueFromClass(SCALE_Y_CLASS) * 0.01;
+
+                scaleDuration = (scaleDuration > 0) ? scaleDuration : 0.4;
+                scaleFactorX = (scaleFactorX > 0) ? scaleFactorX : 1;
+                scaleFactorY = (scaleFactorY > 0) ? scaleFactorY : 1;
+                
+                scaleFactorX = scaleFactorX * scaleWidth;                
+
+                if(!$(item).data('scale')) {
+                    $(item).trigger('scaleIn');
+                    $(item).data('scale', true);
+                }
+
+                $(item).css('transition', `transform ${scaleDuration}s`);
+                $(item).css('-webkit-transform', `scale(${scaleFactorX}, ${scaleFactorY})`);   
+                $(item).css('-ms-transform', `scale(${scaleFactorX}, ${scaleFactorY})`);  
+                $(item).css('transform', `scale(${scaleFactorX}, ${scaleFactorY})`);  
+                $(item).data('scale', true);
+            } else {
+                if($(item).data('scale')) {
+                    $(item).trigger('scaleOut');
+                    $(item).data('scale', false);
+                }
+
+                $(item).css('-webkit-transform', 'scale(1,1)');
+                $(item).css('-ms-transform', 'scale(1,1)');
+                $(item).css('transform', `scale(1,1)`);  
+            }
+        });
+    };
+
     // Every time the window is scrolled...
     $(window).scroll(function () {
         checkAnimatedItems();
+        checkScaledItems();
     });
 
     // Check on startUp
