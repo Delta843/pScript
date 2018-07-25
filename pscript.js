@@ -112,6 +112,8 @@ var pScript = {};
 
     const ANIMATE_CSS_ANIMATED = 'animated';
 
+    const SCALE_CLASS = 'js-scale';
+
 
 
     // Function to detect when an animation has ended
@@ -163,14 +165,14 @@ var pScript = {};
             var self = this;
 
             if (obj.reset) {
-                //Reset animation classes
+                // Reset animation classes
                 self.removeClass(ANIMATE_CSS_ANIMATED);
                 for (i = 0; i < animationClasses.length; i++) {
                     self.removeClass(animationClasses[i]);
                 }
             }
 
-            //Set small timeout duration to make sure the element will recognize DOM manipulation and execute animation            
+            // Set small timeout duration to make sure the element will recognize DOM manipulation and execute animation            
             var addClasses = function () {
                 obj = initAnimationSettings(obj);
                 animation = obj.animation;
@@ -192,7 +194,7 @@ var pScript = {};
                 self.addClass(ANIMATE_CSS_ANIMATED);
                 self.addClass(animation);
 
-                //Invoke callback function if existing
+                // Invoke callback function if existing
                 if (obj.callback !== null && obj.callback !== undefined) {
                     self.one(animationEnd, obj.callback());
                 }
@@ -239,64 +241,56 @@ var pScript = {};
         highlightItemGreen: function (item) {
             //TODO
             this.addClass('js-highlight-green');
-        }
-    });
-
-
-
-    var checkAnimatedItems = function () {
-        //Check the location of each element
-        $('.' + ANIM_CLASS).each(function (index) {
+        },
+        visibleOnScreen: function () {
             let bottom_of_object = $(this).offset().top + $(this).outerHeight();
             let top_of_window = $(window).scrollTop();
             let bottom_of_window = top_of_window + $(window).height();
 
+            // If the object is completely visible in the window
+            return (bottom_of_window > bottom_of_object && top_of_window < bottom_of_object);
+        },
+        getValueFromClass: function(className) {
+            var classes = $(this).attr('class').split(' ');
+            var value = 0;
+                for (var i = 0; i < classes.length; i++) {
+                    if (classes[i].indexOf(className) !== -1) {
+                        // Get value from delay class, e.g. js-anim-delay-4=4s
+                        value = classes[i].substring(className.length+1);
+                        return value;
+                    }
+                }
+            return 0;
+        }
+    });
+
+    var checkAnimatedItems = function () {
+        // Check the location of each element
+        $('.' + ANIM_CLASS).each(function (index) {
             let item = $(this);
 
-            //If the object is completely visible in the window, fade it in 
-            if (bottom_of_window > bottom_of_object && top_of_window < bottom_of_object) {
-                //Check if it not has been animated yet
+            // If the object is completely visible in the window, fade it in 
+            if ($(this).visibleOnScreen()) {
+                // Check if it has not been animated yet
                 if (!($(item).hasClass(ANIM_ACTIVE_CLASS))) {
                     let animationSettings = {};
                     let animClass = $(item).getAnimationClass();
                     animationSettings.animation = animClass;
 
-                    //Check if js-anim-delay class was added
-                    var classes = $(item).attr('class').split(' ');
-                    for (var i = 0; i < classes.length; i++) {
-                        if (classes[i].indexOf(ANIM_DELAY_CLASS) !== -1) {
-                            //Get timeOut duration from delay class, e.g. js-anim-delay-4=4s
-                            let delay = classes[i].substring(14) + 's';
-                            animationSettings.delay = delay;
-                            break;
-                        }
-                    }
+                    // Check if js-anim-delay class was added
+                    animationSettings.delay = $(item).getValueFromClass(ANIM_DELAY_CLASS);
 
-                    //Check if js-anim-duration was added
-                    for (var i = 0; i < classes.length; i++) {
-                        if (classes[i].indexOf(ANIM_DURATION_CLASS) !== -1) {
-                            //Get duration from class, e.g. js-anim-duration-4=4s
-                            let duration = classes[i].substring(17) + 's';
-                            animationSettings.duration = duration;
-                            break;
-                        }
-                    }
+                    // Check if js-anim-duration was added
+                    animationSettings.duration = $(item).getValueFromClass(ANIM_DURATION_CLASS);
 
-                    //Check if js-anim-iteration was added
-                    for (var i = 0; i < classes.length; i++) {
-                        if (classes[i].indexOf(ANIM_ITERATION_CLASS) !== -1) {
-                            //Get iteration count from class, e.g. js-anim-iteration-4=4s
-                            let iterations = classes[i].substring(18);
-                            animationSettings.iterations = iterations;
-                            break;
-                        }
-                    }
+                    // Check if js-anim-iteration was added
+                    animationSettings.iterations = $(item).getValueFromClass(ANIM_ITERATION_CLASS);;
 
                     $(item).addClass(ANIM_ACTIVE_CLASS);
                     $(item).animateItem(animationSettings);
                 }
             } else {
-                //If the object is repeatable then remove classes to repeat animations if later visible again
+                // If the object is repeatable then remove classes to repeat animations if they are later visible again
                 if ($(item).hasClass(ANIM_REPEAT_CLASS)) {
                     if ($(item).hasClass(ANIM_ACTIVE_CLASS)) {
                         $(item).removeClass(ANIM_ACTIVE_CLASS);
@@ -310,12 +304,12 @@ var pScript = {};
         });
     };
 
-    //Every time the window is scrolled...
+    // Every time the window is scrolled...
     $(window).scroll(function () {
         checkAnimatedItems();
     });
 
-    //Check on startUp
+    // Check on startUp
     $(function () {
         checkAnimatedItems();
     });
@@ -323,7 +317,7 @@ var pScript = {};
 }(window, jQuery));
 
 
-(function () {
+(function (global, $) {
     var sexyAlert = function (status) {
         return function (title, body, duration, closeable) {
             const INTRO_ANIM = "zoomIn";
@@ -389,4 +383,4 @@ var pScript = {};
         }).toHexString();
     }
 }
-)();
+)(window, jQuery);
