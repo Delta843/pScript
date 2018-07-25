@@ -146,6 +146,22 @@ $(item).animateItemAndHide(animationSettingsObject);
 
 This function will take the same optional object as animateItem but will also hide the item after the animation and before your custom function.
 
+##### Events
+
+You can attach an event listener with Jquery to listen for an event called animationStart or animationEnd.
+
+```
+$('#div').on('animationStart', function(){
+    console.log('Started animation');
+});
+```
+
+```
+$('#div').on('animationEnd', function(){
+    console.log('End of animation');
+});
+```
+
 ### Alerts
 
 To create a new alert simply invoke one of the members of showAlert:
@@ -202,7 +218,7 @@ The default duration of the transition is 400ms. If you want to change this you 
 
 ##### Events
 
-You can attach a event listener with Jquery to listen for an event called scaleIn or scaleOut.
+You can attach an event listener with Jquery to listen for an event called scaleIn or scaleOut.
 
 ```
 $('#div').on('scaleIn', function(){
