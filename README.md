@@ -116,7 +116,7 @@ $(item).animateItem(animationSettingsObject);
 ```
 $(item).animateItem({
     animation:'wobble',
-    delay:1000,
+    delay:1,
     iteration:2,
     repeat:false,
     duration:3,
@@ -127,10 +127,10 @@ $(item).animateItem({
 
 The object consists of the following arguments:
 * animation = class name of the animation - don't use "js-" before class name (see table in last section for a complete list)
-* delay = a number that sets a delay time until the animation will be executed
+* delay = a number (seconds) that sets a delay time until the animation will be executed
 * iteration = a number that sets the amount of times that the animation will be played (or set to 'infinite' if you want it to never stop)
 * repeat = set to true if animation should be repeated after user returns (through scrolling) to item animation range
-* duration = a number that sets the duration of the animation
+* duration = a number (seconds) that sets the duration of the animation
 * hidden = set to true if you want to hide the element if the user exits the item animation range
 * callback = a custom callback function that will be invoked after the animation is executed
 
@@ -164,7 +164,7 @@ $('#div').on('animationEnd', function(){
 
 ### Alerts
 
-To create a new alert simply invoke one of the members of showAlert:
+To create a new alert simply invoke one of the following members of pScript:
 
 ```
 pScript.showSuccess(title, body, duration, isClosable);
