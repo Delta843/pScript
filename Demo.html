@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="pscript.css"></link>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="pscript.js"></script>
+    <script>
+        function highlightTest(){
+            $('#testDiv').highlightItemRed();
+        }
+    </script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        .form-control {
+            display: unset !important;
+            width:auto !important;
+        }
+        .panel-gray{
+            background-color:#ddd; 
+            width:100%; 
+            height:300px;
+            margin:30px;
+        }
+    </style>
+</head>
+
+<body style="height:5000px">
+    <h3>Animations</h3>
+    <div class="container">
+        <div class="panel-gray js-anim js-zoomIn js-anim-repeat js-anim-duration-2"></div>
+        <div id="test" class="panel-gray js-anim js-anim-delay-1 js-anim-hidden js-fadeInUp js-anim-repeat"></div>
+        <div class="panel-gray js-anim js-anim-delay-2 js-anim-hidden js-fadeInLeft js-anim-repeat js-anim-duration-2"></div>
+        <div class="panel-gray js-anim js-zoomIn js-anim-repeat js-anim-duration-2"></div>
+        <br>
+        <h3>Test Alerts</h3>
+        <br>
+        <input id="alert1" class="form-control" type="text" value="Title">
+        <input id="alert2" class="form-control" type="text" value="Very important description...">
+        <input id="alert3" class="form-control" type="text" value="5000">
+        <input id="alert4" class="form-control" type="checkbox" checked="checked"> is closeable
+        <br>
+        <br>
+        <button class="btn btn-primary btn-lg js-anim js-pulse js-anim-delay-1 js-anim-duration-2" 
+         type="button" onclick="pScript.showDanger($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'))">test error</button>
+         <br><br>
+         <button class="btn btn-success btn-lg" 
+         type="button" onclick="pScript.showSuccess($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'), true)">bootstrap error</button>
+        <br>
+        <br>        
+        <br>
+    </div>
+    <h3>Scaling</h3>
+    <div class="container-fluid" style="padding-top:100px;">
+        <div id="scaleDiv" style="background-color:#ddd; width:70%; border-radius:5px; margin-left:15%; height:300px;" class="js-scale js-scale-offset-20 js-scale-y-150 js-scale-duration-400"></div>
+    </div>
+    <h3 style="margin-top:200px;">Colored pulses</h3>
+    <button class="ps-pulse-1 btn btn-primary btn-lg" style="border:none;">.ps-pulse-1</button><br><br>
+    <button class="ps-pulse-2 btn btn-primary btn-lg" style="border:none;">.ps-pulse-2</button><br><br>
+    <button class="ps-pulse-3 btn btn-primary btn-lg" style="border:none;">.ps-pulse-3</button><br><br>
+</body>
+
+</html>
