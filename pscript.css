@@ -61,6 +61,7 @@
 }
 
 .js-alert {
+    text-align: left !important;
     background: white;
     background-color: white;
     min-height: 100px;
@@ -69,17 +70,24 @@
     z-index: 99999;
     margin-bottom: 30px;
     border: solid 1.5px #e74c3c;
-    color: #e74c3c;
+}
+
+.js-alert-bootstrap {
+    text-align: left !important;
+    min-height: 100px;
+    width: inherit;
+    z-index: 99999;
+    margin-bottom: 30px;
 }
 
 .js-alert-title {
     padding: 10px;
     word-wrap:break-word;
+    font-weight: bold;
 }
 
 .js-alert-body {
-    padding: 10px;
-    color: black;
+    padding: 10px;    
     word-wrap:break-word;
 }
 
@@ -115,7 +123,53 @@
     color:rgb(250, 103, 103);
 }
 
-.hover-zoom{
+/* adjust sizes for mobile devices */
+@media only screen and (max-device-width: 1366px) {
+    #js-alert-container {
+        width:100%;
+    }
+
+    #js-alert-container-padding{
+        height: 10px !important;
+    }
+
+    .js-alert-title {
+        font-size: 5vw !important;
+    }
+    
+    .js-alert-body {
+        font-size: 4vw !important;
+    }
+
+    .js-alert-btn-close{
+        font-size: 4vw !important;
+    }
+}
+
+/* adjust sizes for mobile devices */
+@media only screen and (max-device-height: 600px) {
+    #js-alert-container {
+        width:100%;
+    }
+
+    #js-alert-container-padding{
+        height: 10px !important;
+    }
+
+    .js-alert-title {
+        font-size: 5vh;
+    }
+    
+    .js-alert-body {
+        font-size: 4vh;
+    }
+
+    .js-alert-btn-close{
+        font-size: 4vh;
+    }
+} 
+
+.ps-hover-zoom{
   transition: all .3s ease-in-out;
   background-size: 110%;
   background-position: center;
@@ -123,12 +177,12 @@
   background-color: gray;
 }
 
-.hover-zoom:hover{
+.ps-hover-zoom:hover{
     background-size: 100%;
     background-position: relative;
 }
 
-.parallax { 
+.ps-parallax { 
     /* Full height */
     height: 100%; 
 
@@ -141,7 +195,68 @@
 
 /* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
 @media only screen and (max-device-width: 1366px) {
-    .parallax {
+    .ps-parallax {
         background-attachment: scroll;
     }
+}
+
+
+@keyframes ps-color-anim-1 {
+    0% {
+        background: #7E3BD0;
+    }
+    33% {
+        background: #c73bd0;
+    }
+    66% {
+        background: #3bd0c9;
+    }
+    100% {
+        background: #7E3BD0;
+    }
+}
+
+.ps-pulse-1 {
+    -webkit-animation: ps-color-anim-1 10s ease infinite;
+    animation: ps-color-anim-1 10s ease infinite;
+}
+
+@keyframes ps-color-anim-2 {
+    0% {
+        background: #2bcbba;
+    }
+    33% {
+        background: #45aaf2;
+    }
+    66% {
+        background: #4b7bec;
+    }
+    100% {
+        background: #2bcbba;
+    }
+}
+
+.ps-pulse-2 {
+    -webkit-animation: ps-color-anim-2 10s ease infinite;
+    animation: ps-color-anim-2 10s ease infinite;
+}
+
+@keyframes ps-color-anim-3 {
+    0% {
+        background: #fc5c65;
+    }
+    33% {
+        background: #fd9644;
+    }
+    66% {
+        background: #fed330;
+    }
+    100% {
+        background: #fc5c65;
+    }
+}
+
+.ps-pulse-3 {
+    -webkit-animation: ps-color-anim-3 10s ease infinite;
+    animation: ps-color-anim-3 10s ease infinite;
 }
