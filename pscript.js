@@ -109,6 +109,7 @@ var pScript = {};
     const ANIM_DELAY_CLASS = 'js-anim-delay';
     const ANIM_ITERATION_CLASS = 'js-anim-iteration';
     const ANIM_DURATION_CLASS = 'js-anim-duration';
+    const ANIM_PAUSE_CLASS = 'js-anim-pause';
 
     const ANIMATE_CSS_ANIMATED = 'animated';
 
@@ -131,6 +132,7 @@ var pScript = {};
 
         for (var t in animations) {
             if (el.style[t] !== undefined) {
+                console.log('end ' + t);
                 return animations[t];
             }
         }
@@ -156,6 +158,7 @@ var pScript = {};
         ret.repeat = obj.repeat || false;
         ret.iterations = obj.iterations || 1;
         ret.duration = obj.duration || 1;
+        ret.pause = obj.pause || 0;
         ret.hidden = obj.hidden || false;
         ret.callback = obj.callback || null;
         ret.reset = obj.reset || false;
@@ -198,8 +201,9 @@ var pScript = {};
                 self.addClass(ANIMATE_CSS_ANIMATED);
                 self.addClass(animation);
                 self.trigger('animationStart');
+                self.data('animating', true);
 
-                var triggerAnimEnd = function(){
+                var triggerAnimEnd = function () {
                     self.trigger('animationEnd');
                 };
 
@@ -210,10 +214,23 @@ var pScript = {};
                     }
                     // Trigger animated event
                     self.one(animationEnd, triggerAnimEnd());
-                }, obj.delay * 1000);
+
+                    if (obj.pause > 0 && (obj.iterations > 1 || obj.iterations === "infinite")) {
+                        obj.delay = obj.pause
+                        obj.reset = true;
+                        self.animateItem(obj);
+
+                        if (obj.iterations !== 'infinite') {
+                            obj.iterations--;
+                        }                        
+                    } else {
+                        self.data('animating', false);
+                    }
+                }, (Number(obj.delay) + Number(obj.duration)) * 1000);
             };
 
             if (obj.reset) {
+                // Set a small timeout to let the browser realize, that there was a change
                 setTimeout(addClasses, 10);
             } else {
                 addClasses();
@@ -252,7 +269,7 @@ var pScript = {};
             let bottom_of_window = top_of_window + $(window).height();
 
             // If the object is completely visible in the window
-            return (bottom_of_window > bottom_of_object && top_of_window < bottom_of_object);
+            return (bottom_of_window >= bottom_of_object && top_of_window <= bottom_of_object);
         },
         getValueFromClass: function (className) {
             var classes = $(this).attr('class').split(' ');
@@ -277,9 +294,11 @@ var pScript = {};
             if ($(this).visibleOnScreen()) {
                 // Check if it has not been animated yet
                 if (!($(item).hasClass(ANIM_ACTIVE_CLASS))) {
+                    $(item).addClass(ANIM_ACTIVE_CLASS);
                     let animationSettings = {};
-                    let animClass = $(item).getAnimationClass();
-                    animationSettings.animation = animClass;
+
+                    // Get animation class
+                    animationSettings.animation = $(item).getAnimationClass();
 
                     // Check if js-anim-delay class was added
                     animationSettings.delay = $(item).getValueFromClass(ANIM_DELAY_CLASS);
@@ -288,21 +307,22 @@ var pScript = {};
                     animationSettings.duration = $(item).getValueFromClass(ANIM_DURATION_CLASS);
 
                     // Check if js-anim-iteration was added
-                    animationSettings.iterations = $(item).getValueFromClass(ANIM_ITERATION_CLASS);;
+                    animationSettings.iterations = $(item).getValueFromClass(ANIM_ITERATION_CLASS);
 
-                    $(item).addClass(ANIM_ACTIVE_CLASS);
+                    // Check if js-anim-pause was added
+                    animationSettings.pause = $(item).getValueFromClass(ANIM_PAUSE_CLASS);
+
                     $(item).animateItem(animationSettings);
                 }
             } else {
                 // If the object is repeatable then remove classes to repeat animations if they are later visible again
-                if ($(item).hasClass(ANIM_REPEAT_CLASS)) {
+                if ($(item).hasClass(ANIM_REPEAT_CLASS) && !$(item).data('animating')) {
                     if ($(item).hasClass(ANIM_ACTIVE_CLASS)) {
                         $(item).removeClass(ANIM_ACTIVE_CLASS);
                         $(item).removeClass(ANIMATE_CSS_ANIMATED);
                         let animationClass = $(item).getAnimationClass();
                         $(item).removeClass(animationClass);
                     }
-
                 }
             }
         });
@@ -371,15 +391,22 @@ var pScript = {};
 
 (function (global, $) {
     var sexyAlert = function (status) {
-        return function (title, body, duration, closeable) {
+        return function (title, body, duration, closeable, bootstrap) {
             const INTRO_ANIM = "zoomIn";
-            const OUTRO_ANIM = "zoomOut";
+            const OUTRO_ANIM = "zoomOut";           
 
             //create new alert
             let alertHtml = '<div class="js-alert js-alert-' + status + '">\
             <div class="js-alert-title">' + title + '</div>\
             <div class="js-alert-body">' + body + '</div>\
             </div>';
+
+            if (bootstrap){
+                alertHtml = '<div class="alert js-alert-bootstrap alert-' + status + '">\
+                <div class="js-alert-title">' + title + '</div>\
+                <div class="js-alert-body">' + body + '</div>\
+                </div>';
+            }
 
             let alert = $(alertHtml);
 
