@@ -3,14 +3,19 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="dist/pscript.min.css"></link>
+    <link rel="stylesheet" href="dist/pscript.css">
+    </link>
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-    <script src="dist/pscript.min.js"></script>
+    <script src="dist/pscript.js"></script>
     <script>
         function highlightTest(){
             $('#testDiv').highlightItemRed();
         }
+        $(function(){
+            pScript.injectAnimateCSS();
+            pScript.injectAlertContainer();
+        });
     </script>
     <style>
         html, body {
@@ -47,18 +52,45 @@
         <input id="alert4" class="form-control" type="checkbox" checked="checked"> is closeable
         <br>
         <br>
-        <button class="btn btn-primary btn-lg js-anim js-pulse js-anim-delay-1 js-anim-duration-2" 
-         type="button" onclick="pScript.showDanger($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'))">test error</button>
-         <br><br>
-         <button class="btn btn-success btn-lg" 
-         type="button" onclick="pScript.showSuccess($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'), true)">bootstrap error</button>
+        <button class="btn btn-primary btn-lg js-anim js-pulse js-anim-delay-1 js-anim-duration-2" type="button"
+            onclick="pScript.showDanger($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'))">test
+            error</button>
+        <br><br>
+        <button class="btn btn-success btn-lg" type="button" onclick="pScript.showSuccess($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'), true)">bootstrap
+            error</button>
         <br>
-        <br>        
         <br>
+        <br>
+    </div>
+    <h3>Infinite Scroll</h3>
+    <div class="container" id="infiniteContainer">
+        <script>
+            loadingNewItems = false;
+            $(function () {
+                $('#infinite').on('infiniteScroll', function () {
+                    if (loadingNewItems) {
+                        return;
+                    }
+                    loadingNewItems = true;
+                    $('#infiniteLoading').show();
+                    setTimeout(function () {
+                        $('#infiniteContainer').append($('<div class="panel-gray"></div>'));
+                        loadingNewItems = false;
+                        $('#infiniteLoading').hide();
+                    }, 2000);
+                });
+            });
+        </script>
+    </div>
+    <div class="container">
+        <div id="infinite" class="js-infinite-scroll">
+            <img id="infiniteLoading" style="display:none" src="https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp" />
+        </div>
     </div>
     <h3>Scaling</h3>
     <div class="container-fluid" style="padding-top:100px;">
-        <div id="scaleDiv" style="background-color:#ddd; width:70%; border-radius:5px; margin-left:15%; height:300px;" class="js-scale js-scale-offset-20 js-scale-y-150 js-scale-duration-400"></div>
+        <div id="scaleDiv" style="background-color:#ddd; width:70%; border-radius:5px; margin-left:15%; height:300px;"
+            class="js-scale js-scale-offset-20 js-scale-y-150 js-scale-duration-400"></div>
     </div>
     <h3 style="margin-top:200px;">Colored pulses</h3>
     <button class="ps-pulse-1 btn btn-primary btn-lg" style="border:none;">.ps-pulse-1</button><br><br>

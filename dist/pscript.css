@@ -6,6 +6,11 @@
     visibility: visible !important;
 }
 
+.js-infinite-scroll {
+    height: 30vh;
+    width: 100%;
+}
+
 .js-highlight-red {
     border: solid 2px #e74c3c;
     -webkit-animation: borderHighlightAnimation 0.5s; /* Safari 4+ */

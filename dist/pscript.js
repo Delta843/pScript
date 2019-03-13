@@ -5,16 +5,20 @@
     }
 }());
 
+var pScript = {};
 
 $(function () {
-    // Injects Animate.css Stylesheet that adds css classes for the animation needed. Feel free to remove this and include this file by yourself
-    $('head').append('<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">');
+    pScript.injectAnimateCSS = function() {
+        // Injects Animate.css Stylesheet that adds css classes for the animation needed. Feel free to remove this and include this file by yourself
+        $('head').append('<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">');
+    };
 
-    // Inject an alert container into the body element to be able to stack alert boxes
-    $('body').prepend('<div id="js-alert-container"><div id="js-alert-container-padding"></div><div id="js-alert-container-body"></div></div>');
+    pScript.injectAlertContainer = function () {
+        // Inject an alert container into the body element to be able to stack alert boxes
+        $('body').prepend('<div id="js-alert-container"><div id="js-alert-container-padding"></div><div id="js-alert-container-body"></div></div>');
+    };
 });
 
-var pScript = {};
 
 (function (global, $) {
 
@@ -119,6 +123,8 @@ var pScript = {};
     const SCALE_Y_CLASS = 'js-scale-y';
     const SCALE_DURATION_CLASS = 'js-scale-duration';
 
+    const INFINITE_SCROLL_CLASS = 'js-infinite-scroll';
+
 
 
     // Function to detect when an animation has ended
@@ -132,7 +138,6 @@ var pScript = {};
 
         for (var t in animations) {
             if (el.style[t] !== undefined) {
-                console.log('end ' + t);
                 return animations[t];
             }
         }
@@ -216,7 +221,7 @@ var pScript = {};
                     self.one(animationEnd, triggerAnimEnd());
 
                     if (obj.pause > 0 && (obj.iterations > 1 || obj.iterations === "infinite")) {
-                        obj.delay = obj.pause
+                        obj.delay = obj.pause;
                         obj.reset = true;
                         self.animateItem(obj);
 
@@ -328,6 +333,18 @@ var pScript = {};
         });
     };
 
+    var checkInfiniteScrollItems = function() {
+        // Check the location of each element
+        $('.' + INFINITE_SCROLL_CLASS).each(function (index) {
+            let item = $(this);
+
+            // If the object is completely visible in the window, fade it in 
+            if ($(this).visibleOnScreen()) {
+                $(item).trigger('infiniteScroll');
+            }
+        });
+    };
+
     var checkScaledItems = function () {
         $('.' + SCALE_CLASS).each(function (index) {
             let height_of_Window = $(window).height();
@@ -378,6 +395,7 @@ var pScript = {};
     // Every time the window is scrolled...
     $(window).scroll(function () {
         checkAnimatedItems();
+        checkInfiniteScrollItems();
         checkScaledItems();
     });
 
