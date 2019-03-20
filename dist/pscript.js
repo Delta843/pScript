@@ -10,7 +10,7 @@ var pScript = {};
 $(function () {
     pScript.injectAnimateCSS = function() {
         // Injects Animate.css Stylesheet that adds css classes for the animation needed. Feel free to remove this and include this file by yourself
-        $('head').append('<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">');
+        $('head').append('<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">');
     };
 
     pScript.injectAlertContainer = function () {
@@ -102,7 +102,7 @@ $(function () {
         'slideOutUp'
     ];
 
-    var version = '0.3';
+    var version = '1.2';
 
     // Warning: Only change if you know what you are doing! 
     // CSS class names have to be renamed in the stylesheets too.
@@ -243,9 +243,12 @@ $(function () {
 
         },
         animateItemAndHide: function (obj) {
+            const oldCallback = obj.callback;
             obj.callback = function () {
                 $(this).hide();
-                obj.callback();
+                if (oldCallback) {
+                    oldCallback();
+                }
             };
 
             $(this).animateItem(obj);
@@ -259,14 +262,6 @@ $(function () {
                     return animationClasses[i];
                 }
             }
-        },
-        highlightItemRed: function () {
-            //TODO
-            this.addClass('js-highlight-red');
-        },
-        highlightItemGreen: function (item) {
-            //TODO
-            this.addClass('js-highlight-green');
         },
         visibleOnScreen: function () {
             let bottom_of_object = $(this).offset().top + $(this).outerHeight();
@@ -338,7 +333,7 @@ $(function () {
         $('.' + INFINITE_SCROLL_CLASS).each(function (index) {
             let item = $(this);
 
-            // If the object is completely visible in the window, fade it in 
+            // If the object is completely visible in the window, trigger infiniteScroll event
             if ($(this).visibleOnScreen()) {
                 $(item).trigger('infiniteScroll');
             }
@@ -346,6 +341,7 @@ $(function () {
     };
 
     var checkScaledItems = function () {
+        // Check the location of each element
         $('.' + SCALE_CLASS).each(function (index) {
             let height_of_Window = $(window).height();
             let bottom_of_object = $(this).offset().top + $(this).outerHeight();

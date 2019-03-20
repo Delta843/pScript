@@ -9,9 +9,6 @@
         crossorigin="anonymous"></script>
     <script src="dist/pscript.js"></script>
     <script>
-        function highlightTest(){
-            $('#testDiv').highlightItemRed();
-        }
         $(function(){
             pScript.injectAnimateCSS();
             pScript.injectAlertContainer();
@@ -56,12 +53,21 @@
             onclick="pScript.showDanger($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'))">test
             error</button>
         <br><br>
-        <button class="btn btn-success btn-lg" type="button" onclick="pScript.showSuccess($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'), true)">bootstrap
+        <button class="btn btn-success btn-lg" type="button" onclick="pScript.showDanger($('#alert1').val(), $('#alert2').val(), $('#alert3').val(), $('#alert4').is(':checked'), true)">bootstrap
             error</button>
         <br>
         <br>
         <br>
     </div>
+    <h3>Scaling</h3>
+    <div class="container-fluid" style="padding-top:100px;">
+        <div id="scaleDiv" style="background-color:#ddd; width:70%; border-radius:5px; margin-left:15%; height:300px;"
+            class="js-scale js-scale-offset-20 js-scale-y-150 js-scale-duration-400"></div>
+    </div>
+    <h3 style="margin-top:200px;">Colored pulses</h3>
+    <button class="ps-pulse-1 btn btn-primary btn-lg" style="border:none;">.ps-pulse-1</button><br><br>
+    <button class="ps-pulse-2 btn btn-primary btn-lg" style="border:none;">.ps-pulse-2</button><br><br>
+    <button class="ps-pulse-3 btn btn-primary btn-lg" style="border:none;">.ps-pulse-3</button><br><br>
     <h3>Infinite Scroll</h3>
     <div class="container" id="infiniteContainer">
         <script>
@@ -87,15 +93,6 @@
             <img id="infiniteLoading" style="display:none" src="https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp" />
         </div>
     </div>
-    <h3>Scaling</h3>
-    <div class="container-fluid" style="padding-top:100px;">
-        <div id="scaleDiv" style="background-color:#ddd; width:70%; border-radius:5px; margin-left:15%; height:300px;"
-            class="js-scale js-scale-offset-20 js-scale-y-150 js-scale-duration-400"></div>
-    </div>
-    <h3 style="margin-top:200px;">Colored pulses</h3>
-    <button class="ps-pulse-1 btn btn-primary btn-lg" style="border:none;">.ps-pulse-1</button><br><br>
-    <button class="ps-pulse-2 btn btn-primary btn-lg" style="border:none;">.ps-pulse-2</button><br><br>
-    <button class="ps-pulse-3 btn btn-primary btn-lg" style="border:none;">.ps-pulse-3</button><br><br>
 </body>
 
 </html>

@@ -11,43 +11,6 @@
     width: 100%;
 }
 
-.js-highlight-red {
-    border: solid 2px #e74c3c;
-    -webkit-animation: borderHighlightAnimation 0.5s; /* Safari 4+ */
-    -moz-animation:    borderHighlightAnimation 0.5s; /* Fx 5+ */
-    -o-animation:      borderHighlightAnimation 0.5s; /* Opera 12+ */
-    animation:         borderHighlightAnimation 0.5s; /* IE 10+, Fx 29+ */
-}
-
-.js-highlight-green {
-    border: solid 2px #2ecc71;
-    -webkit-animation: borderHighlightAnimation 0.5s; /* Safari 4+ */
-    -moz-animation:    borderHighlightAnimation 0.5s; /* Fx 5+ */
-    -o-animation:      borderHighlightAnimation 0.5s; /* Opera 12+ */
-    animation:         borderHighlightAnimation 0.5s; /* IE 10+, Fx 29+ */
-}
-
-@-webkit-keyframes borderHighlightAnimation {
-    0%   { border-width: 5px; }
-    20%  { border-width: 8px; }
-    100% { border-width: 2px; }
-  }
-  @-moz-keyframes borderHighlightAnimation {
-    0%   { border-width: 5px; }
-    20%  { border-width: 8px; }
-    100% { border-width: 2px; }
-  }
-  @-o-keyframes borderHighlightAnimation {
-    0%   { border-width: 5px; }
-    20%  { border-width: 8px; }
-    100% { border-width: 2px; }
-  }
-  @keyframes borderHighlightAnimation {
-    0%   { border-width: 5px; }
-    20%  { border-width: 8px; }
-    100% { border-width: 2px; }
-  }
-
 #js-alert-container {
     width: 350px;
     max-width: 100%;

@@ -180,7 +180,6 @@ pScript.showDanger('myTitle', 'messageBody', 8000, false);
 * isCloasable = adds a close button (x) to the top right corner that enables to close the alert box with a click (default is false)
 
 ### UI Effects
-<b>!WIP!</b>
 You can create slick looking and high customizable effects. Check them out!
 
 #### Scaling
@@ -231,15 +230,6 @@ $('#div').on('scaleOut', function(){
     console.log('Now I'm small again!');
 });
 ```
-
-#### Parallax
-WIP
-
-#### Hover Zoom
-WIP
-
-#### Validation Feedback
-WIP
 
 ### Jquery Functions
 
